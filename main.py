@@ -33,10 +33,10 @@ def get_env_variable(name, default="Token not available!"):
 
 if __name__ == "__main__":
     # Get the secret token or use a default value
-    #SOME_SECRET = get_env_variable("SOME_SECRET")
+    #SOME_SECRET = get_env_variable("SECRETS")
 
     # Log the token value (will be 'Token not available!' if not set)
-    #logger.info(f"Token value: {SOME_SECRET}")
+    #logger.info(f"Token value: {SECRETS}")
 
     # Make a request to World Time API to get current time in Istanbul
     try:
