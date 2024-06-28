@@ -1,53 +1,76 @@
 import logging
-import logging.handlers
 import os
+from datetime import datetime
+import pandas as pd
+import yfinance as yf
 
-import requests
+def setup_logger(log_file="status.log"):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    
+    # Remove all existing handlers to prevent duplicates
+    for handler in logger.handlers[:]:
+        logger.removeHandler(handler)
+    
+    file_handler = logging.FileHandler(log_file, mode='a')
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    
+    return logger
 
-# Initialize logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-# Define a rotating file handler for logging
-logger_file_handler = logging.handlers.RotatingFileHandler(
-    "status.log",  # Log file name
-    maxBytes=1024 * 1024,  # Maximum size per log file (1MB)
-    backupCount=1,  # Number of backup log files to keep
-    encoding="utf8"  # Encoding for the log file
-)
-
-# Set the log format
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger_file_handler.setFormatter(formatter)
-
-# Add the file handler to the logger
-logger.addHandler(logger_file_handler)
-
-# Function to get environment variable or provide default value
 def get_env_variable(name, default="Token not available!"):
+    return os.environ.get(name, default)
+
+def read_companies_from_csv(csv_file):
     try:
-        return os.environ[name]
-    except KeyError:
-        logger.warning(f"Environment variable '{name}' not set, using default value.")
-        return default
+        df = pd.read_csv(csv_file)
+        if 'name' not in df.columns:
+            logger.error("CSV file does not contain a 'name' column")
+            return []
+        return df['name'].tolist()
+    except Exception as e:
+        logger.error(f"Error reading CSV file: {str(e)}")
+        return []
+
+def fetch_and_save_data(symbols, csv_file):
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    try:
+        data = yf.download(symbols, period="1d", interval="1m")
+        latest_prices = data['Close'].iloc[-1]
+        
+        if os.path.exists(csv_file):
+            df = pd.read_csv(csv_file, sep=';')
+        else:
+            df = pd.DataFrame(columns=['Time'] + symbols)
+        
+        new_row = pd.DataFrame([[current_time] + latest_prices.tolist()], 
+                               columns=['Time'] + symbols)
+        
+        df = pd.concat([df, new_row], ignore_index=True)
+        
+        df.to_csv(csv_file, sep=';', index=False)
+        
+        logger.info(f"Data saved for {current_time}")
+        return True
+    except Exception as e:
+        logger.error(f"Error fetching or saving data: {str(e)}")
+        return False
 
 if __name__ == "__main__":
-    # Get the secret token or use a default value
-    #SOME_SECRET = get_env_variable("SECRETS")
-
-    # Log the token value (will be 'Token not available!' if not set)
-    #logger.info(f"Token value: {SECRETS}")
-
-    # Make a request to World Time API to get current time in Istanbul
-    try:
-        r = requests.get('https://worldtimeapi.org/api/timezone/Europe/Istanbul')
-
-        # Check if request was successful
-        if r.status_code == 200:
-            data = r.json()
-            utc_dtime = data["utc_datetime"]
-            logger.info(f'Time in Europe/Istanbul: {utc_dtime}')
-        else:
-            logger.error(f"Failed to fetch time from World Time API. Status code: {r.status_code}")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Failed to connect to World Time API: {e}")
+    logger = setup_logger()
+    
+    companies_file = 'companies.csv'
+    companies = read_companies_from_csv(companies_file)
+    
+    if not companies:
+        logger.error("No companies found in CSV file. Exiting.")
+        exit(1)
+    
+    csv_file = 'stock_prices.csv'
+    
+    if fetch_and_save_data(companies, csv_file):
+        logger.info(f'Data write successful: {datetime.now()}')
+    else:
+        logger.error('Failed to fetch and save data')
