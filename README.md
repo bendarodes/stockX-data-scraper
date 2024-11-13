@@ -1,5 +1,5 @@
 # StockX-Data-Scraper
-Automated Python tool to scrape real-time stock exchange data using GitHub Actions for CI/CD. Fetches stock prices, volumes, and financial metrics for analysis and integration.
+Automated Python tool to scrape real-time stock exchange data using GitHub Actions for CI/CD. This tool fetches stock prices, volumes, and financial metrics, providing data for analysis and integration into other applications.
 
 ## Features
 
@@ -16,3 +16,28 @@ To get a local copy up and running follow these simple steps.
 
 - Python 3.x
 - GitHub account
+
+### Installation
+
+Clone the repository:
+
+`git clone https://github.com/username/StockX-Data-Scraper.git` <br>
+`cd StockX-Data-Scraper`
+
+Install dependencies:
+
+`pip install -r requirements.txt`
+
+Set up GitHub Actions: Follow the GitHub Actions [documentation](https://docs.github.com/en/actions) to enable CI/CD for automated data updates.
+
+## Contact Information
+
+For questions or support, please reach out to [your contact information].
+
+## Acknowledgments
+
+    GitHub Actions for CI/CD automation.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
