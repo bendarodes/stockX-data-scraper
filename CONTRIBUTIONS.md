@@ -11,7 +11,7 @@ Click the "Fork" button on the top right of this page to create a copy of this r
 2. Create a Branch
 Open your terminal, clone the forked repository to your local machine, and create a new branch to make your changes:
 
-`git clone https://github.com/your-username/StockX-Data-Scraper.git` <br>
+`git clone https://github.com/bendarodes/stockX-data-scraper.git` <br>
 `cd StockX-Data-Scraper` <br>
 `git checkout -b feature/your-feature-name` <br>
 
