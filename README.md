@@ -32,7 +32,7 @@ Set up GitHub Actions: Follow the GitHub Actions [documentation](https://docs.gi
 
 ## Contribution Guidelines
 
-We welcome contributions! Please check our [guidelines](CONTRIBUTIONS.md) and code of [conduct](CONDUCT.md)!
+We welcome contributions! Please check our [guidelines](CONTRIBUTIONS.md) and [code of conduct](CONDUCT.md)!
 
 ## Contact Information
 
