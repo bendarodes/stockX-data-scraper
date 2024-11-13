@@ -22,7 +22,7 @@ To get a local copy up and running follow these simple steps.
 Clone the repository:
 
 `git clone https://github.com/username/StockX-Data-Scraper.git` <br>
-`cd StockX-Data-Scraper`
+`cd StockX-Data-Scraper` <br>
 
 Install dependencies:
 
@@ -30,13 +30,17 @@ Install dependencies:
 
 Set up GitHub Actions: Follow the GitHub Actions [documentation](https://docs.github.com/en/actions) to enable CI/CD for automated data updates.
 
+## Contribution Guidelines
+
+We welcome contributions! Please check our [guidelines](CONTRIBUTIONS.md) and code of [conduct](CONDUCT.md)!
+
 ## Contact Information
 
 For questions or support, please reach out to [your contact information].
 
 ## Acknowledgments
 
-    GitHub Actions for CI/CD automation.
+GitHub Actions for CI/CD automation.
 
 ## License
 
