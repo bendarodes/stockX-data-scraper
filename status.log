@@ -4112,3 +4112,5 @@
 2025-05-14 21:08:25,002 - __main__ - ERROR - Failed to fetch and save data
 2025-05-14 22:08:14,340 - __main__ - ERROR - Error fetching or saving data: single positional indexer is out-of-bounds
 2025-05-14 22:08:14,340 - __main__ - ERROR - Failed to fetch and save data
+2025-05-14 23:08:49,692 - __main__ - ERROR - Error fetching or saving data: single positional indexer is out-of-bounds
+2025-05-14 23:08:49,692 - __main__ - ERROR - Failed to fetch and save data
